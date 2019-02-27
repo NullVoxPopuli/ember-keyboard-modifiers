@@ -24,6 +24,34 @@ Usage
 
 [Longer description of how to use the addon in apps.]
 
+Potential Usage: 
+```hbs
+---
+import Keys from 'lib/utils/keys';
+---
+
+<div id=ModalContainer
+  {{on-key-press Keys.Esc (action this.close)}}
+  {{on-key-press Keys.PageDown (action this.focusButton)}}
+>
+  {{yield}}
+
+  <button onclick={{this.doIt}}>Do It!</button>
+</div>
+```
+```ts
+import Component from '@glimmer/component';
+
+export default class Example extends Component {
+  close(element) {
+    element.classList.remove('open');
+  }
+
+  focusButton(element) {
+    element.querySelector('button').focus();
+  }
+}
+```
 
 License
 ------------------------------------------------------------------------------
