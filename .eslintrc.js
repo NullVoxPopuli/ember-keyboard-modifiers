@@ -1,25 +1,28 @@
 module.exports = {
   root: true,
-  parserOptions: {
-    ecmaVersion: 2017,
-    sourceType: 'module'
-  },
-  plugins: [
-    'ember'
-  ],
+  parser: '@typescript-eslint/parser',
+  plugins: ['ember', 'prettier', '@typescript-eslint'],
   extends: [
     'eslint:recommended',
-    'plugin:ember/recommended'
+    'plugin:ember/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'prettier/@typescript-eslint',
   ],
-  env: {
-    browser: true
-  },
   rules: {
+    // typescript
+    '@typescript-eslint/no-use-before-define': 'off',
+    '@typescript-eslint/explicit-member-accessibility': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+
+    // prettier
+    'prettier/prettier': 'error',
   },
   overrides: [
     // node files
     {
       files: [
+        '.prettierrc.js',
         '.eslintrc.js',
         '.template-lintrc.js',
         'ember-cli-build.js',
@@ -27,26 +30,18 @@ module.exports = {
         'testem.js',
         'blueprints/*/index.js',
         'config/**/*.js',
-        'tests/dummy/config/**/*.js'
+        'tests/dummy/config/**/*.js',
       ],
-      excludedFiles: [
-        'addon/**',
-        'addon-test-support/**',
-        'app/**',
-        'tests/dummy/app/**'
-      ],
-      parserOptions: {
-        sourceType: 'script',
-        ecmaVersion: 2015
-      },
-      env: {
-        browser: false,
-        node: true
-      },
+      excludedFiles: ['addon/**', 'addon-test-support/**', 'app/**', 'tests/dummy/app/**'],
       plugins: ['node'],
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
-        // add your custom rules and overrides for node files here
-      })
-    }
-  ]
+        '@typescript-eslint/camelcase': 'off',
+        '@typescript-eslint/no-var-requires': 'off',
+      }),
+      env: {
+        browser: false,
+        node: true,
+      },
+    },
+  ],
 };
