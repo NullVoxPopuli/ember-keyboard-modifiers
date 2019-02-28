@@ -11,11 +11,11 @@ interface IModifierArgs {
 }
 
 
-interface IModifierManagerFactory<TArgs> {
-  createModifier(factory: any, args: TArgs): KeyboardModifier;
-  installModifier(instance: KeyboardModifier, element: Element, args: TArgs): void;
-  updateModifier(instance: KeyboardModifier, args: TArgs): void;
-  destroyModifier(instance: KeyboardModifier, args: TArgs): void;
+interface IModifierManagerFactory<TState, TArgs> {
+  createModifier(factory: any, args: TArgs): TState;
+  installModifier(instance: TState, element: Element, args: TArgs): void;
+  updateModifier(instance: TState, args: TArgs): void;
+  destroyModifier(instance: TState, args: TArgs): void;
 }
 
 // state;
@@ -32,7 +32,7 @@ class KeyboardModifier {
   }
 }
 
-function createManager(owner: ApplicationInstance): IModifierManagerFactory<IModifierArgs> {
+function createManager(owner: ApplicationInstance): IModifierManagerFactory<KeyboardModifier, IModifierArgs> {
   return {
     createModifier(factory, args) {
       let keyboardService = owner.lookup('service:keyboard');
